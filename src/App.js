@@ -25,6 +25,15 @@ function App() {
     }
   ])
 
+  //add task
+  const addTask = (task) => {
+    // console.log('add task done', task);
+    // generate a random id for the new task
+    const id = Math.floor(Math.random() * 100) + 1
+    const newTask = { id, ...task };
+    setTasks([...tasks, newTask]);
+  }
+
   //delete task
   const deleteTask = (id) => {
     // console.log('task deleted', id);
@@ -42,7 +51,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <AddTask />
+      <AddTask onAdd={addTask} />
       {tasks.length > 0 ? <Tasks tasks={tasks} onToggle={toggleReminder} onDelete={deleteTask} /> : 'there is no task'}
     </div>
   );
