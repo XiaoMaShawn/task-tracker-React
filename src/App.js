@@ -23,6 +23,14 @@ function App() {
     return data;
   };
 
+  //fetch task for changing reminder in server
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:8080/tasks/${id}`);
+    const data = await res.json();
+    // console.log('tasks data', data);
+    return data;
+  };
+
   //add task
   const addTask = async (task) => {
     // console.log('add task done', task);
@@ -50,11 +58,29 @@ function App() {
   };
 
   //toggle reminder
-  const toggleReminder = (id) => {
+  const toggleReminder = async (id) => {
+    //client side toggle reminder
     // console.log('toggle', id);
+    // setTasks(tasks.map((task) =>
+    // task.id === id ? { ...task, reminder: !task.reminder } : task
+    // ))
+
+    //work with server side toggle reminder
+    const taskToToggle = await fetchTask(id);
+    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
+
+    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(updTask)
+    });
+    const data = res.json();
+
     setTasks(tasks.map((task) =>
-      task.id === id ? { ...task, reminder: !task.reminder } : task
-    ))
+      task.id === id ? { ...task, reminder: data.reminder } : task
+    ));
   };
 
   return (

@@ -15,7 +15,7 @@
     {
       "text": "save task",
       "day": "Monday",
-      "reminder": true,
+      "reminder": false,
       "id": 3
     }
   ]
