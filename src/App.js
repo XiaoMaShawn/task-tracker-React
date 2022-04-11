@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 
 function App() {
+  const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -23,7 +24,7 @@ function App() {
       day: 'Feb 5th at 2:30pm',
       reminder: false
     }
-  ])
+  ]);
 
   //add task
   const addTask = (task) => {
@@ -50,8 +51,8 @@ function App() {
 
   return (
     <div className="container">
-      <Header />
-      <AddTask onAdd={addTask} />
+      <Header showAdd={showAddTask} onClick={() => setShowAddTask(!showAddTask)} />
+      {showAddTask && <AddTask onAdd={addTask} />}
       {tasks.length > 0 ? <Tasks tasks={tasks} onToggle={toggleReminder} onDelete={deleteTask} /> : 'there is no task'}
     </div>
   );
